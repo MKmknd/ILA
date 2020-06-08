@@ -12,3 +12,7 @@ Utils.egg-info/
 # Mac files
 .DS_Store
 *.swp
+
+# pipenv file
+Pipfile.lock
+Pipfile
