@@ -16,3 +16,6 @@ Utils.egg-info/
 # pipenv file
 Pipfile.lock
 Pipfile
+
+# stack
+stack
