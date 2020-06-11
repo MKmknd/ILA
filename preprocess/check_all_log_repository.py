@@ -2,10 +2,8 @@ import re
 from datetime import datetime
 from collections import Counter
 
-import sys
-sys.path.append("./../Utils")
-import util
-import git_reader
+from Utils import util
+from Utils import git_reader
 
 #project_name_list = ["hadoop"]
 #project_name_list = ["commons-lang", "commons-math"]
@@ -157,7 +155,7 @@ class ExtractCommitMessage:
 
         parsed_log_dict = self.parse_log(log)
         util.dump_pickle("{0}/{1}_log_message_info.pickle".format(self.output_dir,
-                                                                  self.apache_issue_id_prefix),
+                                                                  self.p_name),
                                                                   parsed_log_dict)
 
         if self.verbose!=0:

@@ -8,6 +8,7 @@ build
 dist
 *.egg-info
 Utils.egg-info/
+__pycache__
 
 # Mac files
 .DS_Store
@@ -19,3 +20,8 @@ Pipfile
 
 # stack
 stack
+
+# test data
+repository
+data_*
+test_data
