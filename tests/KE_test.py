@@ -13,9 +13,8 @@ def run():
     db_path = "./../tests/test_data/exp15/avro_issue_field_data.db"
     hash_list = git_reader.get_all_hash_without_merge(repodir)
     issue_id_list = issue_db_reader.read_issue_id_list(db_path)
-    ins = keyword_extraction.KeywordExtraction(hash_list, issue_id_list,
-                                               "./../preprocess/data_AVRO/avro_log_message_info.pickle")
-    data = ins.run()
+    ins = keyword_extraction.KeywordExtraction()
+    data = ins.run(hash_list, issue_id_list, "./../preprocess/data_AVRO/avro_log_message_info.pickle")
 
     def test(test_data, target_data):
         test_hash_list = sorted(list(test_data.keys()))
