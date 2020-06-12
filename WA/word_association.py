@@ -1,19 +1,8 @@
-import subprocess
 import re
-import sqlite3
 import sys
-import os
-#import nltk
 
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 
 from Utils import util
-from Utils import git_reader
-
-from ILA_Utils import shared_files
-
-from TS import ntext_similarity
 
 from KE import keyword_extraction
 
@@ -222,24 +211,19 @@ class WordAssociation:
 
         return var_mu_CB
 
-    def compare_association(self, p_name, repodir, db_path, dsc_issue_dict,
-                            comment_issue_dict, modified_file_repo_dict,
+    def compare_association(self,
                             hash_list, issue_id_list, log_message_info_pickle_path,
-                            lscp_processed_data_pickle_path):
+                            lscp_processed_data_pickle_path, output_dir):
         """
         Compare the description and comment in issue with log message at a commit.
         We identify this is a pair if they are similar
 
         Arguments:
-        p_name [string] -- project name
-        repodir [string] -- path to repository
-        db_path [string] -- path to database
-        dsc_issue_dict [dict<issue id, description>] -- description for each issue id
-        comment_issue_dict [dict<issue id, comments (a string)>] -- a string of comments for each issue id
-        modified_file_repo_dict [dict<commit hash, list<modified files>>] -- modified files list for each commit hash
         hash_list [list<commit hash>] -- studied commit hash list
         issue_id_list [list<issue id>] -- studied issue id list
         log_messgae_info_pickle_path [string] -- path to log_message_info.pickle
+        lscp_processed_data_pickle_path [string] -- path the directory where we can see the data that was processed by lscp
+        output_dir [string] -- output directory to store the values
 
         Returns:
         return_dict [dict<issue id, list<commit hash>>] -- issue id to list of commit hashes. these commit hashes have the association values over a certain threshold
@@ -252,7 +236,6 @@ class WordAssociation:
         else:
             ins = keyword_extraction.KeywordExtraction()
             keyword_extraction_dict = ins.run(hash_list, issue_id_list, log_message_info_pickle_path)
-            #keyword_extraction_dict = keyword_extraction.run(p_name, hash_list, issue_id_list) # train data
 
         # extract words for each file for each commit hash (dict<commit hash, dict<file path, set<words in the file content>>>)
 
@@ -282,19 +265,6 @@ class WordAssociation:
                 if idx_issue_id%1000==0:
                     print("Done issue id: {0}/{1}".format(idx_issue_id, len_issue_id_list))
 
-            #if not issue_id in dsc_issue_dict:
-            #    content = ""
-            #elif dsc_issue_dict[issue_id] is None:
-            #    content = ""
-            #else:
-            #    content = dsc_issue_dict[issue_id]
-
-            #if not issue_id in comment_issue_dict:
-            #    content += ""
-            #elif comment_issue_dict[issue_id] is None:
-            #    content += ""
-            #else:
-            #    content += comment_issue_dict[issue_id]
             ##print(content)
             ##content = shared_files.extract_attached_file_content(db_path, issue_id, attached_file_dict[issue_id][-1]) # only check the final file (in the future, this would be the latest added file
             ##attached_file_content_dict[issue_id] = set(lscp(self.extract_diff(content)).split())
@@ -308,9 +278,9 @@ class WordAssociation:
             print("train association model ...")
         var_mu_CB = self.train_association_model(keyword_extraction_dict, modified_file_content_repo_dict, dsc_com_content_dict, issue_id_list)
         if self.blind_rate:
-            util.dump_pickle("./pickle/{0}_{1}_var_mu_CB.pickle".format(p_name, self.blind_rate), var_mu_CB)
+            util.dump_pickle("{0}/{1}_var_mu_CB.pickle".format(output_dir, self.blind_rate), var_mu_CB)
         else:
-            util.dump_pickle("./pickle/{0}_var_mu_CB.pickle".format(p_name), var_mu_CB)
+            util.dump_pickle("{0}/var_mu_CB.pickle".format(output_dir), var_mu_CB)
 
         return_dict = {}
         for issue_id in issue_id_list:
@@ -323,48 +293,26 @@ class WordAssociation:
         return return_dict
 
 
-    def run(self, p_name, hash_list, issue_id_list, log_message_info_pickle_path,
-            lscp_processed_data_pickle_path):
+    def run(self, hash_list, issue_id_list, log_message_info_pickle_path,
+            lscp_processed_data_pickle_path, output_dir):
         """
         Combine issue ids and commit hashes using word association.
 
         Arguments:
-        p_name [string] -- project name string
         hash_list [list<commit hash>] -- studied commit hash list
         issue_id_list [list<issue id>] -- studied issue id list
         log_messgae_info_pickle_path [string] -- path to log_message_info.pickle
-        lscp_processed_data_pickle_path TODO what is this?
+        lscp_processed_data_pickle_path [string] -- path the directory where we can see the data that was processed by lscp
+        output_dir [string] -- output directory to store the values
 
         Returns:
         issue2hash_dict [dict<issue id, list<commit hash>>] -- issue id to list of commit hashes. these commit hashes are the similar wording with word association
         """
 
-        db_path = "./../../exp15/db/{0}_issue_field_data.db".format(p_name)
-        #"""
-        #attached_file_dict [dict<issue id, list<file name>>] -- attached file list for each issue. Note that extracting issues including "patch"
-        #"""
-        #attached_file_dict = shared_files.extract_attached_files(db_path)
-        """
-        dsc_issue_dict [dict<issue id, description>] -- description for each issue id
-        comment_issue_dict [dict<issue id, comments (a string)>] -- a string of comments for each issue id
-        """
-        ntext_similarity_obj = ntext_similarity.NtextSimilarity()
-        dsc_issue_dict = ntext_similarity_obj.extract_description(db_path)
-        comment_issue_dict = ntext_similarity_obj.extract_comment(db_path)
-
-
-        """
-        modified_file_issue_dict [dict<commit hash, list<modified files>>] -- modified files list for each commit hash
-        """
-        modified_file_repo_dict = shared_files.extract_modified_file_repo(p_name, hash_list)
-        repodir = "./../../repository/{0}".format(p_name)
-
-
-        issue2hash_dict = self.compare_association(p_name, repodir, db_path,
-                                                   dsc_issue_dict, comment_issue_dict,
-                                                   modified_file_repo_dict, hash_list,
-                                                   issue_id_list, log_message_info_pickle_path,
-                                                   lscp_processed_data_pickle_path)
+        issue2hash_dict = self.compare_association(hash_list, issue_id_list,
+                                                   log_message_info_pickle_path,
+                                                   lscp_processed_data_pickle_path,
+                                                   output_dir)
         return issue2hash_dict
 
 
