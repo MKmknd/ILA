@@ -127,3 +127,25 @@ To check the details of the datetime object, please check:
 tests/TF_test.py's extract_datetime_from_string function.
 
 ### Text Similarity (TS)
+
+An example is the following:
+
+```Python
+from TS import ntext_similarity
+
+ins = ntext_similarity.NtextSimilarity()
+target_data = ins.run(hash_list, issue_id_list, test_target_hash_list, dsc_issue_dict,
+               comment_issue_dict, log_message_without_issueid_path,
+               "./test_data/TS/test_pickle")
+```
+
+Here:
+- hash_list: a list of all commit hashes that we want to study (e.g., ['abc123...', ...])
+- issue_id_list: a list of issue report id list (e.g., ['AVRO-XXX', '..'...])
+- test_target_hash_list: a list of a subset of hash_list. This is because this script is time consuming. We can split the target data.
+- dsc_issue_dict: a dictionary of the descriptions of all issue reports. The key is an issue id; the value is a description.
+- comment_issue_dict: a dictionary of a string of all the comments for each issue report. The key is an issue id; the value is a string of all the comments.
+- log_message_without_issueid_path: the pickle path of the log message that we prepared in the previous section. (*_log_message_without_issueid.pickle)
+- The return value data is a dictionary. The key is an issue id; the value is a list of commit hashes that correspond to this issue id.
+
+The return value data is the result of TS.
