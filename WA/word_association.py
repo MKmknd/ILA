@@ -3,6 +3,7 @@ import sys
 
 
 from Utils import util
+from Utils import generate_blind_data
 
 from KE import keyword_extraction
 
@@ -192,6 +193,7 @@ class WordAssociation:
         else:
             ins = keyword_extraction.KeywordExtraction()
             keyword_extraction_dict = ins.run(hash_list, issue_id_list, log_message_info_pickle_path)
+            keyword_extraction_dict = generate_blind_data.main(keyword_extraction_dict, self.blind_rate)
 
         # extract words for each file for each commit hash (dict<commit hash, dict<file path, set<words in the file content>>>)
 

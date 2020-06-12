@@ -22,8 +22,9 @@ def run():
 
     keyword_extraction_dict_path = "./test_data/WA/data/avro_keyword_extraction_10.pickle"
 
-    ins = word_association.WordAssociation(blind_rate=10,
-                                           keyword_extraction_dict_path=keyword_extraction_dict_path)
+    #ins = word_association.WordAssociation(blind_rate=10,
+    #                                       keyword_extraction_dict_path=keyword_extraction_dict_path)
+    ins = word_association.WordAssociation(blind_rate=10)
     target_data = ins.run(hash_list, test_target_issue_list,
                           log_message_info_path,
                           lscp_processed_data_pickle_path,
