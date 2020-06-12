@@ -200,7 +200,7 @@ class WordAssociation:
         for num_ite in range(1, self.max_iteration+1):
             if self.verbose > 0:
                 print("num ite: {0}/{1}".format(num_ite, self.max_iteration))
-            temp_dict = util.load_pickle("{0}/avro_modified_file_content_repo_dict_ite{1}.pickle".format(
+            temp_dict = util.load_pickle("{0}/modified_file_content_repo_dict_ite{1}.pickle".format(
                 lscp_processed_data_pickle_path, num_ite))
 
             for commit_hash in temp_dict.keys():
