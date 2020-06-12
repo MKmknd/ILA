@@ -10,11 +10,13 @@ from KE import keyword_extraction
 class WordAssociation:
 
     # the default value of ASSOC_THRESHOLD: refer to Figure 10 in Section 8.2.1 in nguyen2012FSE
-    def __init__(self, extension_set=set([".java"]), ASSOC_THRESHOLD=0.2, verbose=0, max_iteration=25, keyword_extraction_dict_path=None, blind_rate=None):
+    def __init__(self, extension_set=set([".java"]), ASSOC_THRESHOLD=0.5, verbose=0, max_iteration=25,
+                 keyword_extraction_dict_path=None, blind_rate=0):
         """
         Arguments:
         extension_set [set<string>] -- extensions' set that would be analyzed
         ASSOC_THRESHOLD [int] -- the threshold for association
+        blind_rate [int] -- percentage of blind rate (e.g., 50% blind rate: 50)
         """
         self.extension_set = extension_set
         self.ASSOC_THRESHOLD = ASSOC_THRESHOLD
@@ -25,52 +27,6 @@ class WordAssociation:
         #self.tmp_prefix = tmp_prefix
         #self.parallel_iteration = parallel_iteration
 
-    def extract_diff(self, content):
-        #re_start_line = re.compile("^@@ [\s]-(\d+).+\+(\d+)")
-        re_start_line = re.compile("^@@[\s]-(\d+).+\+(\d+),(\d+)\s@@$")
-        re_deletedLine = re.compile("^-")
-        re_addedLine = re.compile("^\+")
-        diff_start = 0
-        diff_content = ""
-        for line in content.splitlines():
-            match = re_start_line.match(line)
-            if match and diff_start==0:
-                remain_line = int(match.group(3))
-                #print(remain_line)
-                diff_start = 1
-                sum_diff_line = 0
-                continue
-
-            if diff_start==1:
-                sum_diff_line += 1
-                if re_deletedLine.match(line):
-                    sum_diff_line -= 1
-                elif re_addedLine.match(line):
-                    #print("test")
-                    diff_content += " " + line[1:] + "\n"
-                else:
-                    diff_content += line + "\n"
-
-                if sum_diff_line==remain_line:
-                    diff_start=0
-
-        return diff_content
-
-
-
-
-    def _unit_test_display(self, cnt_word_dict):
-        # test
-        for issue_id in cnt_word_dict.keys():
-            print(issue_id)
-            for commit_hash in cnt_word_dict[issue_id].keys():
-                print(commit_hash)
-                for word_repo in cnt_word_dict[issue_id][commit_hash].keys():
-                    print(word_repo)
-                    for word_issue in cnt_word_dict[issue_id][commit_hash][word_repo].keys():
-                        if cnt_word_dict[issue_id][commit_hash][word_repo][word_issue] != 1:
-                            print("word_issue: {0}, count: {1}".format(word_issue, cnt_word_dict[issue_id][commit_hash][word_repo][word_issue]))
-        sys.exit()
 
     def compute_mu_ew(self, var_n_we, var_n_w, var_n_e):
         """
@@ -244,7 +200,7 @@ class WordAssociation:
         for num_ite in range(1, self.max_iteration+1):
             if self.verbose > 0:
                 print("num ite: {0}/{1}".format(num_ite, self.max_iteration))
-            temp_dict = util.load_pickle("{0}/modified_file_content_repo_dict_ite{1}.pickle".format(
+            temp_dict = util.load_pickle("{0}/avro_modified_file_content_repo_dict_ite{1}.pickle".format(
                 lscp_processed_data_pickle_path, num_ite))
 
             for commit_hash in temp_dict.keys():
@@ -265,13 +221,8 @@ class WordAssociation:
                 if idx_issue_id%1000==0:
                     print("Done issue id: {0}/{1}".format(idx_issue_id, len_issue_id_list))
 
-            ##print(content)
-            ##content = shared_files.extract_attached_file_content(db_path, issue_id, attached_file_dict[issue_id][-1]) # only check the final file (in the future, this would be the latest added file
-            ##attached_file_content_dict[issue_id] = set(lscp(self.extract_diff(content)).split())
-            ##print(lscp(content, text=True))
-            #dsc_com_content_dict[issue_id] = set(self.lscp(content, text=True).split())
             content = util.load_pickle("{0}/{1}_dsc_comment_string.pickle".format(
-                issue_id, lscp_processed_data_pickle_path))
+                lscp_processed_data_pickle_path, issue_id))
             dsc_com_content_dict[issue_id] = set(content.split())
 
         if self.verbose > 0:
