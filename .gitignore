@@ -27,3 +27,4 @@ data_*
 test_data
 issue_db_reader.py
 _masa_check.py
+temp_*
