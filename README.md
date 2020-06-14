@@ -232,3 +232,26 @@ Here:
 - The return value data is a dictionary. The key is an issue id; the value is a list of commit hashes that correspond to this issue id.
 
 The return value data is the result of LO.
+
+
+### Phantom heuristics (PH)
+
+An example is the following:
+
+```Python
+from PH import phantom
+
+ins = phantom.Phantom(repo_dir, blind_rate)
+target_data = ins.run(hash_list, issue_id_list,
+                      log_message_info_path)
+```
+
+Here:
+- repo_dir: repository directory
+- blind_rate: the blind rate value
+- hash_list: a list of all commit hashes that we want to study (e.g., ['abc123...', ...])
+- issue_id_list: a list of issue report id list (e.g., ['AVRO-XXX', '..'...])
+- log_message_info_path: the pickle path of the log message info that we prepared in the previous section. (*_log_message_info.pickle)
+- The return value data is a dictionary. The key is an issue id; the value is a list of commit hashes that correspond to this issue id.
+
+The return value data is the result of PH.
