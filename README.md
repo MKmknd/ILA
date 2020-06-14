@@ -183,3 +183,29 @@ Here:
 - The return value data is a dictionary. The key is an issue id; the value is a list of commit hashes that correspond to this issue id.
 
 The return value data is the result of WA.
+
+
+### Message Generation from Source Code (GS)
+
+An example is the following:
+
+```Python
+from GS import comment
+
+ins = comment.Comment(ASSOC_THRESHOLD=0.5, blind_rate=50)
+target_data = ins.run(hash_list, issue_id_list, target_issue_id_list,
+               dsc_issue_dict, comment_issue_dict,
+               repo_javadoc_dict, output_dir)
+```
+
+Here:
+- hash_list: a list of all commit hashes that we want to study (e.g., ['abc123...', ...])
+- issue_id_list: a list of issue report id list (e.g., ['AVRO-XXX', '..'...])
+- target_issue_id_list: a list of a subset of issue report id. This is because this script is time consuming. We can split the target data.
+- dsc_issue_dict: a dictionary of the descriptions of all issue reports. The key is an issue id; the value is a description.
+- comment_issue_dict: a dictionary of a string of all the comments for each issue report. The key is an issue id; the value is a string of all the comments.
+- repo_javadoc_dict: a dictionary of a string of all javadocs for each commit hash. The key is a commit hash; the value is all javadocs that were extracted from all the modified files in this commit hash.
+- output_dir: a path to the output directory
+- The return value data is a dictionary. The key is an issue id; the value is a list of commit hashes that correspond to this issue id.
+
+The return value data is the result of GS.
