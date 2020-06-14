@@ -149,3 +149,15 @@ Here:
 - The return value data is a dictionary. The key is an issue id; the value is a list of commit hashes that correspond to this issue id.
 
 The return value data is the result of TS.
+
+
+
+### Word Association (WA)
+
+First, we need to prepare two text data that was already
+processed by lscp.  
+Concretely,
+- modified_file_content_repo_dict_ite{{ iteration number }}.pickle: a dict: the key is commit hash; the value is a dict: the key is a modified file path in this commit; the value is a set of all words in this file (the file was processed by lscp and separated for each blank to be words).
+- {{ issue id }}}_dsc_comment_string.pickle: a string of description + comments in this issue report that was processed by lscp
+
+If you want to use other preprocessor, you can use that instead of lscp.
