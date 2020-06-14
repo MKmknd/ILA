@@ -255,3 +255,33 @@ Here:
 - The return value data is a dictionary. The key is an issue id; the value is a list of commit hashes that correspond to this issue id.
 
 The return value data is the result of PH.
+
+
+### Modified Text Files (MT)
+
+An example is the following:
+
+```Python
+from MT import nsd_similarity
+
+ins = nsd_similarity.NSDSimilarity(repodir, output_dir_cosine_sim)
+target_data = ins.run(hash_list, issue_id_list,
+                      target_issue_id_list,
+                      dsc_issue_dict, comment_issue_dict)
+```
+
+Here:
+- repo_dir: repository directory
+- output_dir_cosine_sim: output directory to store the cosine similarity
+- hash_list: a list of all commit hashes that we want to study (e.g., ['abc123...', ...])
+- issue_id_list: a list of issue report id list (e.g., ['AVRO-XXX', '..'...])
+- target_issue_id_list: target issue id
+- dsc_issue_dict: a dictionary of the descriptions of all issue reports. The key is an issue id; the value is a description.
+- comment_issue_dict: a dictionary of a string of all the comments for each issue report. The key is an issue id; the value is a string of all the comments.
+- The return value data is a dictionary. The key is an issue id; the value is a list of commit hashes that correspond to this issue id.
+
+The return value data is the result of MT.
+
+
+
+### PU learning (PU)
