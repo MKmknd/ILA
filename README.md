@@ -136,7 +136,7 @@ from TS import ntext_similarity
 ins = ntext_similarity.NtextSimilarity()
 target_data = ins.run(hash_list, issue_id_list, test_target_hash_list, dsc_issue_dict,
                comment_issue_dict, log_message_without_issueid_path,
-               "./test_data/TS/test_pickle")
+               output_dir)
 ```
 
 Here:
@@ -146,6 +146,7 @@ Here:
 - dsc_issue_dict: a dictionary of the descriptions of all issue reports. The key is an issue id; the value is a description.
 - comment_issue_dict: a dictionary of a string of all the comments for each issue report. The key is an issue id; the value is a string of all the comments.
 - log_message_without_issueid_path: the pickle path of the log message that we prepared in the previous section. (*_log_message_without_issueid.pickle)
+- output_dir: a path to the output directory
 - The return value data is a dictionary. The key is an issue id; the value is a list of commit hashes that correspond to this issue id.
 
 The return value data is the result of TS.
@@ -156,8 +157,29 @@ The return value data is the result of TS.
 
 First, we need to prepare two text data that was already
 processed by lscp.  
-Concretely,
+Concretely, the following data (1):
 - modified_file_content_repo_dict_ite{{ iteration number }}.pickle: a dict: the key is commit hash; the value is a dict: the key is a modified file path in this commit; the value is a set of all words in this file (the file was processed by lscp and separated for each blank to be words).
 - {{ issue id }}}_dsc_comment_string.pickle: a string of description + comments in this issue report that was processed by lscp
 
 If you want to use other preprocessor, you can use that instead of lscp.
+
+
+An example is the following:
+
+```Python
+from WA import word_association
+
+ins = word_association.WordAssociation(ASSOC_THRESHOLD=0.5, blind_rate=50)
+target_data = ins.run(hash_list, issue_id_list, log_message_info_pickle_path,
+               lscp_processed_data_pickle_path, output_dir)
+```
+
+Here:
+- hash_list: a list of all commit hashes that we want to study (e.g., ['abc123...', ...])
+- issue_id_list: a list of issue report id list (e.g., ['AVRO-XXX', '..'...])
+- log_message_info_pickle_path: the pickle path of the log message info that we prepared in the previous section. (*_log_message_info.pickle)
+- lscp_processed_data_pickle_path: path to a directory where (1) is stored
+- output_dir: a path to the output directory
+- The return value data is a dictionary. The key is an issue id; the value is a list of commit hashes that correspond to this issue id.
+
+The return value data is the result of WA.
