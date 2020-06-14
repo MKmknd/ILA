@@ -271,24 +271,3 @@ class Phantom:
 
 
 
-if __name__=="__main__":
-
-    """
-    ANSWER:
-    HADOOP-5213 (May. 1 resolved) -- cf2fd0bad1750400d9a654d9f53450c7900062e9, 5011f075a6c8fcbfaf21e21f183dd693eddfde79, a20c705c8ee8bf2cb00504e4eb09a07dc17470e7
-    HADOOP-4840 (Dec. 19 resolved) -- f3f6ca7d8ce34c20ed6ae311b113cb4c35be7beb, 9d7dfd4fe01b3a5735da7dd80c08aaa98039e953, 6960cbca35264c7a2240b70e225b9b2f70f11605, f59975a1a5df6576b2ed0c7a30ee039ee29d7054
-    HADOOP-4854 (Dec. 23 resolved) -- 0bedee128820c09ed60a07fd4ee11ad39e22e76a, f76750a2af7107c6636c3f966a471765d2cb0e42
-    HADOOP-4374 -- e85b3e02db45b5a0da0ffdd7ff1d1c40fab4f295
-    HADOOP-5179 (Jul. 21 (2014) resolved) -- None in this hash list
-
-    no tag name -- 412035b47a1b0116cb53ce612a61cd087d5edc41 (Dec. 20), 705b172b95db345a99adf088fca83c67bd13a691 (Dec. 6)
-    not associated tag name here -- adcfc550345b8a1656a3efe63c2c969639422845 (same author with f76750a2af7107c6636c3f966a471765d2cb0e42 and 0bedee128820c09ed60a07fd4ee11ad39e22e76a)
-    not associated tab name here -- b8cb4035eb418882ed5185f8c3b46d63da53c46c (sam author with e85b3e02db45b5a0da0ffdd7ff1d1c40fab4f295 and meet the time condition)
-    """
-    hash_list = ['cf2fd0bad1750400d9a654d9f53450c7900062e9', '5011f075a6c8fcbfaf21e21f183dd693eddfde79', 'a20c705c8ee8bf2cb00504e4eb09a07dc17470e7', '412035b47a1b0116cb53ce612a61cd087d5edc41', '705b172b95db345a99adf088fca83c67bd13a691', 'f3f6ca7d8ce34c20ed6ae311b113cb4c35be7beb', '9d7dfd4fe01b3a5735da7dd80c08aaa98039e953', '6960cbca35264c7a2240b70e225b9b2f70f11605', 'f59975a1a5df6576b2ed0c7a30ee039ee29d7054', '0bedee128820c09ed60a07fd4ee11ad39e22e76a', 'f76750a2af7107c6636c3f966a471765d2cb0e42', 'adcfc550345b8a1656a3efe63c2c969639422845', 'b8cb4035eb418882ed5185f8c3b46d63da53c46c', 'e85b3e02db45b5a0da0ffdd7ff1d1c40fab4f295']
-    issue_id_list = ['HADOOP-5213', 'HADOOP-4840', 'HADOOP-4854', 'HADOOP-5179', 'HADOOP-4374']
-    phantom_obj = Phantom(verbose=1)
-    print(phantom_obj.run("hadoop", hash_list, issue_id_list))
-
-    phantom_obj = Phantom(verbose=1)
-    print(phantom_obj.run("hadoop", hash_list, issue_id_list))
