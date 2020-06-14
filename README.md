@@ -134,7 +134,7 @@ An example is the following:
 from TS import ntext_similarity
 
 ins = ntext_similarity.NtextSimilarity()
-target_data = ins.run(hash_list, issue_id_list, test_target_hash_list, dsc_issue_dict,
+target_data = ins.run(hash_list, issue_id_list, target_issue_id_list, dsc_issue_dict,
                comment_issue_dict, log_message_without_issueid_path,
                output_dir)
 ```
@@ -142,7 +142,7 @@ target_data = ins.run(hash_list, issue_id_list, test_target_hash_list, dsc_issue
 Here:
 - hash_list: a list of all commit hashes that we want to study (e.g., ['abc123...', ...])
 - issue_id_list: a list of issue report id list (e.g., ['AVRO-XXX', '..'...])
-- test_target_hash_list: a list of a subset of hash_list. This is because this script is time consuming. We can split the target data.
+- target_issue_id_list: a list of a subset of issue report id. This is because this script is time consuming. We can split the target data.
 - dsc_issue_dict: a dictionary of the descriptions of all issue reports. The key is an issue id; the value is a description.
 - comment_issue_dict: a dictionary of a string of all the comments for each issue report. The key is an issue id; the value is a string of all the comments.
 - log_message_without_issueid_path: the pickle path of the log message that we prepared in the previous section. (*_log_message_without_issueid.pickle)
