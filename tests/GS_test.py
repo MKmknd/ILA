@@ -167,26 +167,25 @@ def run():
 
     util.dump_pickle("./test_data/GS/test_pickle/target_data.pickle", target_data)
 
-    #def test(test_data, test_pickle, target_data, target_pickle, test_target_hash_list):
+    def test(test_data, target_data, test_target_hash_list):
 
-    #    # check contents
-    #    for hash in test_target_hash_list:
+        # check contents
+        for hash in test_target_hash_list:
 
-    #        if not hash in test_data and not hash in target_data:
-    #            continue
+            if not hash in test_data and not hash in target_data:
+                continue
 
-    #        assert set(test_data[hash])==set(target_data[hash]), "content is different"
-    #        #assert test_pickle[hash]==target_pickle[hash], "content is different"
-    #        #assert test_data[hash]==target_data[hash], "content is different"
-    #        #assert test_pickle[hash]==target_pickle[hash], "content is different"
+            assert set(test_data[hash])==set(target_data[hash]), "content is different"
+            #assert test_pickle[hash]==target_pickle[hash], "content is different"
+            #assert test_data[hash]==target_data[hash], "content is different"
+            #assert test_pickle[hash]==target_pickle[hash], "content is different"
 
-    #    print("TEST DONE")
+        print("TEST DONE")
 
-    #test_data = util.load_pickle("./test_data/TS/data/avro_ntext_similarity_costh3.pickle")
-    #test_pickle = util.load_pickle("./test_data/TS/pickle/avro_cosine_similarity_dict_ite1.pickle")
-    #target_pickle = util.load_pickle("./test_data/TS/test_pickle/cosine_similarity_dict_ite1.pickle")
+    test_data = util.load_pickle("./test_data/GS/data/avro_comment_costh4_ite1.pickle")
+    target_data = util.load_pickle("./test_data/GS/test_pickle/target_data.pickle")
 
-    #test(test_data, test_pickle, target_data, target_pickle, test_target_hash_list)
+    test(test_data, target_data, target_issue_id_list)
 
 
 
