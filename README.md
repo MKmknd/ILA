@@ -209,3 +209,26 @@ Here:
 - The return value data is a dictionary. The key is an issue id; the value is a list of commit hashes that correspond to this issue id.
 
 The return value data is the result of GS.
+
+
+### Loner heuristics (LO)
+
+An example is the following:
+
+```Python
+from LO import loner
+
+ins = loner.Loner(time_interval_after=30, blind_rate=50)
+target_data = ins.run(hash_list, issue_id_list,
+                      log_message_info_path,
+                      date_issue_dict)
+```
+
+Here:
+- hash_list: a list of all commit hashes that we want to study (e.g., ['abc123...', ...])
+- issue_id_list: a list of issue report id list (e.g., ['AVRO-XXX', '..'...])
+- log_message_info_path: the pickle path of the log message info that we prepared in the previous section. (*_log_message_info.pickle)
+- date_issue_dict: a dictionary of the issue report date information. The key is an issue id; the value is a dictionary: the key is the date information keywords (created, updated, and resolutiondate); the value is the datetime object for each date.
+- The return value data is a dictionary. The key is an issue id; the value is a list of commit hashes that correspond to this issue id.
+
+The return value data is the result of LO.
