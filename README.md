@@ -319,3 +319,41 @@ Here:
 - The return value data is a dictionary. The key is an issue id; the value is a list of commit hashes that correspond to this issue id.
 
 The return value data is the result of PU.
+
+
+
+### Machine Learning (ML)
+
+An example is the following:
+
+```Python
+from ML import execute
+
+ins = execute.MLModel(repo_dir=repodir, db_path=db_path, random_state=200, verbose=1,
+                     keyword_extraction_dict_path=keyword_extraction_dict_path,
+                     blind_rate=blind_rate, max_iteration=25)
+target_data = ins.run(hash_list, issue_id_list,
+                      log_message_info_path, log_message_without_issueid_path,
+                      dsc_issue_dict, comment_issue_dict, output_dir)
+```
+
+Here:
+- repo_dir: repository directory
+- db_path: database path: this database includes the "basic_fields" table which includes
+                          the columns of "issue_id", "created", "updated", "resolutiondate"
+                          that are the created, updated, and resolution dates of the issue.
+- random_state: random seed
+- verbose: verbose
+- keyword_extraction_dict_path: the results of KE (pickle path)
+- blind_rate: the blind rate value
+- max_iteration: the maximum iteration value that was used in the text similarity (TS)
+- hash_list: a list of all commit hashes that we want to study (e.g., ['abc123...', ...])
+- issue_id_list: a list of issue report id list (e.g., ['AVRO-XXX', '..'...])
+- log_message_info_path: the pickle path of the log message info that we prepared in the previous section. (*_log_message_info.pickle)
+- log_message_without_issueid_path: the pickle path of the log message that we prepared in the previous section. (*_log_message_without_issueid.pickle)
+- dsc_issue_dict: a dictionary of the descriptions of all issue reports. The key is an issue id; the value is a description.
+- comment_issue_dict: a dictionary of a string of all the comments for each issue report. The key is an issue id; the value is a string of all the comments.
+- output_dir_cosine_sim: output directory to read the cosine similarity that was computed by TS.
+- The return value data is a dictionary. The key is an issue id; the value is a list of commit hashes that correspond to this issue id.
+
+The return value data is the result of ML.
