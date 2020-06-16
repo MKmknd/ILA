@@ -15,8 +15,8 @@ __pycache__
 *.swp
 
 # pipenv file
-Pipfile.lock
-Pipfile
+#Pipfile.lock
+#Pipfile
 
 # stack
 stack
