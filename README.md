@@ -1,4 +1,20 @@
 
+## How to install
+
+In your Python environment, please conduct the following:
+
+```
+$ cd {{path to the root directory of this repository}}
+$ pip install -e .
+```
+
+If you use pipenv,
+
+```
+$ cd {{path to the root directory of this repository}}
+$ pipenv sync
+```
+
 
 ## How to get the result
 
