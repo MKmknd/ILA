@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from Utils import generate_blind_data
+from Utils import generate_delete_data
 from Utils import git_reader
 from Utils import util
 
@@ -22,7 +22,7 @@ from TS import ntext_similarity
 
 
 class PULink:
-    def __init__(self, repo_dir, db_path, ISSUE_DATE_KEYWORD="resolutiondate", COMMIT_DATE_KEYWORD="commit_date", NAME_TYPE_REPO="committer", CANDIDATE_TIME_FILTER_BEFORE=timedelta(days=7), CANDIDATE_TIME_FILTER_AFTER=timedelta(days=7), execute_flag_ntext=0, max_iteration=25, random_state=None, verbose=0, keyword_extraction_dict_path=None, blind_rate=None):
+    def __init__(self, repo_dir, db_path, ISSUE_DATE_KEYWORD="resolutiondate", COMMIT_DATE_KEYWORD="commit_date", NAME_TYPE_REPO="committer", CANDIDATE_TIME_FILTER_BEFORE=timedelta(days=7), CANDIDATE_TIME_FILTER_AFTER=timedelta(days=7), execute_flag_ntext=0, max_iteration=25, random_state=None, verbose=0, keyword_extraction_dict_path=None, delete_rate=None):
         """
         ISSUE_DATE_KEYWORD [string] -- select the date for each issue for the time filtering. the default is resolution date
         COMMIT_DATE_KEYWORD [string] -- select the date for each commit for the time filtering. the default is commit date
@@ -50,7 +50,7 @@ class PULink:
         self.random_state = random_state
 
         self.keyword_extraction_dict_path=keyword_extraction_dict_path
-        self.blind_rate = blind_rate
+        self.delete_rate = delete_rate
 
     def extract_modified_file_repo(self, hash_list):
         """
@@ -383,7 +383,7 @@ class PULink:
         else:
             ins = keyword_extraction.KeywordExtraction()
             keyword_extraction_dict = ins.run(hash_list, issue_id_list, log_message_info_path) # train data
-            keyword_extraction_dict = generate_blind_data.main(keyword_extraction_dict, self.blind_rate)
+            keyword_extraction_dict = generate_delete_data.main(keyword_extraction_dict, self.delete_rate)
 
 
         data_array, label_list, name_list, candidate_issue2hash_dict = self.extract_features(hash_list, issue_id_list,

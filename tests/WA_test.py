@@ -5,7 +5,7 @@ import sqlite3
 
 def _test():
 
-    blind_rate = 10
+    delete_rate = 10
 
     from Utils import git_reader
     from Utils import issue_db_reader
@@ -13,8 +13,8 @@ def _test():
     db_path = "./../tests/test_data/exp15/avro_issue_field_data.db"
     issue_id_list = issue_db_reader.read_issue_id_list(db_path)
 
-    var_mu_CB_dict = util.load_pickle("./test_data/WA/pickle/{0}_var_mu_CB.pickle".format(blind_rate))
-    #var_mu_CB_dict = util.load_pickle("./test_data/WA/pickle/avro_{0}_var_mu_CB.pickle".format(blind_rate))
+    var_mu_CB_dict = util.load_pickle("./test_data/WA/pickle/{0}_var_mu_CB.pickle".format(delete_rate))
+    #var_mu_CB_dict = util.load_pickle("./test_data/WA/pickle/avro_{0}_var_mu_CB.pickle".format(delete_rate))
     count_num_issue = len(var_mu_CB_dict)
     print("number of processed issues: {0}".format(count_num_issue))
 
@@ -82,9 +82,9 @@ def run():
 
     keyword_extraction_dict_path = "./test_data/WA/data/avro_keyword_extraction_10.pickle"
 
-    #ins = word_association.WordAssociation(blind_rate=10,
+    #ins = word_association.WordAssociation(delete_rate=10,
     #                                       keyword_extraction_dict_path=keyword_extraction_dict_path)
-    ins = word_association.WordAssociation(ASSOC_THRESHOLD=0.5, blind_rate=10)
+    ins = word_association.WordAssociation(ASSOC_THRESHOLD=0.5, delete_rate=10)
     target_data = ins.run(hash_list, test_target_issue_list,
                           log_message_info_path,
                           lscp_processed_data_pickle_path,

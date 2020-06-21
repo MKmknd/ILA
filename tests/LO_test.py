@@ -50,10 +50,10 @@ def run():
     """
     date_issue_dict = extract_dates(db_path)
 
-    keyword_extraction_dict_path = "./test_data/exp20/blinded_data/avro_keyword_extraction_50.pickle"
-    ins = loner.Loner(time_interval_after=30, blind_rate=50,
+    keyword_extraction_dict_path = "./test_data/exp20/deleted_data/avro_keyword_extraction_50.pickle"
+    ins = loner.Loner(time_interval_after=30, delete_rate=50,
                       keyword_extraction_dict_path=keyword_extraction_dict_path)
-    #ins = loner.Loner(time_interval_after=30, blind_rate=50)
+    #ins = loner.Loner(time_interval_after=30, delete_rate=50)
     target_data = ins.run(hash_list, issue_id_list,
                           log_message_info_path,
                           date_issue_dict)

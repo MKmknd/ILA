@@ -70,8 +70,8 @@ def run():
     """
     date_issue_dict [dict<issue id, dict<date keyword, date (datetime object)>>] -- extract date for each date keyword for each issue. date keywords are created, updated, and resolutiondate
     """
-    keyword_extraction_dict_path = "./test_data/exp20/blinded_data/avro_keyword_extraction_50.pickle"
-    blind_rate = 50
+    keyword_extraction_dict_path = "./test_data/exp20/deleted_data/avro_keyword_extraction_50.pickle"
+    delete_rate = 50
 
     dsc_issue_dict = extract_description(db_path)
     comment_issue_dict = extract_comment(db_path)
@@ -80,7 +80,7 @@ def run():
 
     ins = pu_link.PULink(repo_dir=repodir, db_path=db_path, random_state=200, verbose=1,
                          keyword_extraction_dict_path=keyword_extraction_dict_path,
-                         blind_rate=blind_rate, max_iteration=25)
+                         delete_rate=delete_rate, max_iteration=25)
     target_data = ins.run(hash_list, issue_id_list,
                           log_message_info_path, log_message_without_issueid_path,
                           dsc_issue_dict, comment_issue_dict, output_dir)

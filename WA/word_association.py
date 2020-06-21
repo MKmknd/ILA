@@ -3,7 +3,7 @@ import sys
 
 
 from Utils import util
-from Utils import generate_blind_data
+from Utils import generate_delete_data
 
 from KE import keyword_extraction
 
@@ -12,19 +12,19 @@ class WordAssociation:
 
     # the default value of ASSOC_THRESHOLD: refer to Figure 10 in Section 8.2.1 in nguyen2012FSE
     def __init__(self, extension_set=set([".java"]), ASSOC_THRESHOLD=0.5, verbose=0, max_iteration=25,
-                 keyword_extraction_dict_path=None, blind_rate=0):
+                 keyword_extraction_dict_path=None, delete_rate=0):
         """
         Arguments:
         extension_set [set<string>] -- extensions' set that would be analyzed
         ASSOC_THRESHOLD [int] -- the threshold for association
-        blind_rate [int] -- percentage of blind rate (e.g., 50% blind rate: 50)
+        delete_rate [int] -- percentage of delete rate (e.g., 50% delete rate: 50)
         """
         self.extension_set = extension_set
         self.ASSOC_THRESHOLD = ASSOC_THRESHOLD
         self.verbose = verbose
         self.max_iteration = max_iteration
         self.keyword_extraction_dict_path=keyword_extraction_dict_path
-        self.blind_rate = blind_rate
+        self.delete_rate = delete_rate
         #self.tmp_prefix = tmp_prefix
         #self.parallel_iteration = parallel_iteration
 
@@ -193,7 +193,7 @@ class WordAssociation:
         else:
             ins = keyword_extraction.KeywordExtraction()
             keyword_extraction_dict = ins.run(hash_list, issue_id_list, log_message_info_pickle_path)
-            keyword_extraction_dict = generate_blind_data.main(keyword_extraction_dict, self.blind_rate)
+            keyword_extraction_dict = generate_delete_data.main(keyword_extraction_dict, self.delete_rate)
 
         # extract words for each file for each commit hash (dict<commit hash, dict<file path, set<words in the file content>>>)
 
@@ -230,8 +230,8 @@ class WordAssociation:
         if self.verbose > 0:
             print("train association model ...")
         var_mu_CB = self.train_association_model(keyword_extraction_dict, modified_file_content_repo_dict, dsc_com_content_dict, issue_id_list)
-        if self.blind_rate:
-            util.dump_pickle("{0}/{1}_var_mu_CB.pickle".format(output_dir, self.blind_rate), var_mu_CB)
+        if self.delete_rate:
+            util.dump_pickle("{0}/{1}_var_mu_CB.pickle".format(output_dir, self.delete_rate), var_mu_CB)
         else:
             util.dump_pickle("{0}/var_mu_CB.pickle".format(output_dir), var_mu_CB)
 

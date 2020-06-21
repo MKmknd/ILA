@@ -1,6 +1,6 @@
 from datetime import timedelta
 from Utils import util
-from Utils import generate_blind_data
+from Utils import generate_delete_data
 
 from KE import keyword_extraction
 
@@ -10,7 +10,7 @@ from TF import time_filtering
 
 class Loner:
 
-    def __init__(self, keyword_extraction_flag=1, name_type_repo="committer", time_interval_after=30, verbose=1, keyword_extraction_dict_path=None, blind_rate=None):
+    def __init__(self, keyword_extraction_flag=1, name_type_repo="committer", time_interval_after=30, verbose=1, keyword_extraction_dict_path=None, delete_rate=None):
         """
 
         Note that keyword_extraction_flag should be 1 since this flag corresponds to
@@ -24,7 +24,7 @@ class Loner:
         self.time_interval_after = time_interval_after
         self.verbose = verbose
         self.keyword_extraction_dict_path=keyword_extraction_dict_path
-        self.blind_rate = blind_rate
+        self.delete_rate = delete_rate
 
     def update_hash_issue_list_not_match(self, data_dict, hash_list, issue_id_list):
         """
@@ -170,7 +170,7 @@ class Loner:
             else:
                 ins = keyword_extraction.KeywordExtraction()
                 keyword_extraction_dict = ins.run(hash_list, issue_id_list, log_message_info_pickle_path) # train data
-                keyword_extraction_dict = generate_blind_data.main(keyword_extraction_dict, self.blind_rate)
+                keyword_extraction_dict = generate_delete_data.main(keyword_extraction_dict, self.delete_rate)
 
             hash_list, issue_id_list = self.update_hash_issue_list_not_match(keyword_extraction_dict, hash_list, issue_id_list)
 

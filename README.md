@@ -185,7 +185,7 @@ An example is the following:
 ```Python
 from WA import word_association
 
-ins = word_association.WordAssociation(ASSOC_THRESHOLD=0.5, blind_rate=50)
+ins = word_association.WordAssociation(ASSOC_THRESHOLD=0.5, delete_rate=50)
 target_data = ins.run(hash_list, issue_id_list, log_message_info_pickle_path,
                lscp_processed_data_pickle_path, output_dir)
 ```
@@ -208,7 +208,7 @@ An example is the following:
 ```Python
 from GS import comment
 
-ins = comment.Comment(ASSOC_THRESHOLD=0.5, blind_rate=50)
+ins = comment.Comment(ASSOC_THRESHOLD=0.5, delete_rate=50)
 target_data = ins.run(hash_list, issue_id_list, target_issue_id_list,
                dsc_issue_dict, comment_issue_dict,
                repo_javadoc_dict, output_dir)
@@ -234,7 +234,7 @@ An example is the following:
 ```Python
 from LO import loner
 
-ins = loner.Loner(time_interval_after=30, blind_rate=50)
+ins = loner.Loner(time_interval_after=30, delete_rate=50)
 target_data = ins.run(hash_list, issue_id_list,
                       log_message_info_path,
                       date_issue_dict)
@@ -257,14 +257,14 @@ An example is the following:
 ```Python
 from PH import phantom
 
-ins = phantom.Phantom(repo_dir, blind_rate)
+ins = phantom.Phantom(repo_dir, delete_rate)
 target_data = ins.run(hash_list, issue_id_list,
                       log_message_info_path)
 ```
 
 Here:
 - repo_dir: repository directory
-- blind_rate: the blind rate value
+- delete_rate: the delete rate value
 - hash_list: a list of all commit hashes that we want to study (e.g., ['abc123...', ...])
 - issue_id_list: a list of issue report id list (e.g., ['AVRO-XXX', '..'...])
 - log_message_info_path: the pickle path of the log message info that we prepared in the previous section. (*_log_message_info.pickle)
@@ -309,7 +309,7 @@ from PU import pu_link
 
 ins = pu_link.PULink(repo_dir=repodir, db_path=db_path, random_state=200, verbose=1,
                      keyword_extraction_dict_path=keyword_extraction_dict_path,
-                     blind_rate=blind_rate, max_iteration=25)
+                     delete_rate=delete_rate, max_iteration=25)
 target_data = ins.run(hash_list, issue_id_list,
                       log_message_info_path, log_message_without_issueid_path,
                       dsc_issue_dict, comment_issue_dict, output_dir)
@@ -323,7 +323,7 @@ Here:
 - random_state: random seed
 - verbose: verbose
 - keyword_extraction_dict_path: the results of KE (pickle path)
-- blind_rate: the blind rate value
+- delete_rate: the delete rate value
 - max_iteration: the maximum iteration value that was used in the text similarity (TS)
 - hash_list: a list of all commit hashes that we want to study (e.g., ['abc123...', ...])
 - issue_id_list: a list of issue report id list (e.g., ['AVRO-XXX', '..'...])
@@ -347,7 +347,7 @@ from ML import execute
 
 ins = execute.MLModel(repo_dir=repodir, db_path=db_path, random_state=200, verbose=1,
                      keyword_extraction_dict_path=keyword_extraction_dict_path,
-                     blind_rate=blind_rate, max_iteration=25)
+                     delete_rate=delete_rate, max_iteration=25)
 target_data = ins.run(hash_list, issue_id_list,
                       log_message_info_path, log_message_without_issueid_path,
                       dsc_issue_dict, comment_issue_dict, output_dir)
@@ -361,7 +361,7 @@ Here:
 - random_state: random seed
 - verbose: verbose
 - keyword_extraction_dict_path: the results of KE (pickle path)
-- blind_rate: the blind rate value
+- delete_rate: the delete rate value
 - max_iteration: the maximum iteration value that was used in the text similarity (TS)
 - hash_list: a list of all commit hashes that we want to study (e.g., ['abc123...', ...])
 - issue_id_list: a list of issue report id list (e.g., ['AVRO-XXX', '..'...])

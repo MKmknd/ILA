@@ -18,9 +18,9 @@ def run():
     log_message_info_path = "./../preprocess/data_AVRO/avro_log_message_info.pickle"
 
 
-    keyword_extraction_dict_path = "./test_data/exp20/blinded_data/avro_keyword_extraction_50.pickle"
+    keyword_extraction_dict_path = "./test_data/exp20/deleted_data/avro_keyword_extraction_50.pickle"
     ins = phantom.Phantom(repo_dir=repodir, verbose=0, keyword_extraction_dict_path=keyword_extraction_dict_path,
-                          blind_rate=50)
+                          delete_rate=50)
     target_data = ins.run(hash_list, issue_id_list,
                           log_message_info_path)
 

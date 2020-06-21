@@ -1,7 +1,7 @@
 from datetime import timedelta
 from Utils import util
 from Utils import git_reader
-from Utils import generate_blind_data
+from Utils import generate_delete_data
 
 from KE import keyword_extraction
 
@@ -10,7 +10,7 @@ from TF import time_filtering
 
 class Phantom:
     def __init__(self, repo_dir, TIME_INTERVAL_BEFORE=timedelta(days=3), TIME_INTERVAL_AFTER=timedelta(days=3),
-                 DUPLICATE_RATE=0.66, verbose=0, keyword_extraction_dict_path=None, blind_rate=None):
+                 DUPLICATE_RATE=0.66, verbose=0, keyword_extraction_dict_path=None, delete_rate=None):
         """
         TIME_INTERVAL_{BEFORE|AFTER}: time interval before or after a linked commit. if another non-linked commit
                                       is located this interval, these two commits would be linked
@@ -24,7 +24,7 @@ class Phantom:
         self.DUPLICATE_RATE = DUPLICATE_RATE
         self.verbose = verbose
         self.keyword_extraction_dict_path=keyword_extraction_dict_path
-        self.blind_rate = blind_rate
+        self.delete_rate = delete_rate
 
     def extract_linked_non_linked_hash(self, data_dict, hash_list):
         """
@@ -243,7 +243,7 @@ class Phantom:
         else:
             ins = keyword_extraction.KeywordExtraction()
             keyword_extraction_dict = ins.run(hash_list, issue_id_list, log_message_info_path) # train data
-            keyword_extraction_dict = generate_blind_data.main(keyword_extraction_dict, self.blind_rate)
+            keyword_extraction_dict = generate_delete_data.main(keyword_extraction_dict, self.delete_rate)
 
         linked_hash_set, non_linked_hash_set = self.extract_linked_non_linked_hash(keyword_extraction_dict, hash_list)
 
