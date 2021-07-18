@@ -141,9 +141,22 @@ class PULink:
         return_dict = {}
         for row in cur.fetchall():
 
-            return_dict[row[0]] = {'created': self.extract_datetime_from_string(row[1]),
-                                   'updated': self.extract_datetime_from_string(row[2]),
-                                   'resolutiondate': self.extract_datetime_from_string(row[3])}
+            if row[3] is None:
+                print("\n====")
+                print("Skip: {0}".format(row[0]))
+                print("====\n")
+                if row[0]!="CHUKWA-6":
+                    print("Error")
+                    with open("./error/error_issue.txt", "a") as f:
+                        f.write("{0}\n".format(row[0]))
+                    sys.exit()
+                return_dict[row[0]] = {'created': self.extract_datetime_from_string(row[1]),
+                                        'updated': self.extract_datetime_from_string(row[2]),
+                                        'resolutiondate': self.extract_datetime_from_string(row[2])}
+            else:
+                return_dict[row[0]] = {'created': self.extract_datetime_from_string(row[1]),
+                                       'updated': self.extract_datetime_from_string(row[2]),
+                                       'resolutiondate': self.extract_datetime_from_string(row[3])}
         cur.close()
         conn.close()
 
