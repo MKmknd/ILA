@@ -365,6 +365,7 @@ class PULink:
 
         print("sample size: {0:,}".format(len(label_list)))
         data_array = scipy.stats.zscore(np.array(data_array))
+        data_array = np.nan_to_num(data_array)
         data_array = np.concatenate([data_array, data_array_binary], 1)
 
         label_list = np.array(label_list)
